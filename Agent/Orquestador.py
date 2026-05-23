@@ -1,37 +1,126 @@
-from Skills.Skill1 import preparar_datos
-from Skills.Skill2 import ejecutar_eda
-from Skills.Skill3 import entrenar_modelo
+from pathlib import Path
+from Skills.preparar_datos import preparar_datos
+from Skills.analisis_eda import ejecutar_eda
+from Skills.modelado import entrenar_modelo
+
+
+def _validar_ruta_dataset(ruta_dataset):
+    """Valida que la ruta del dataset sea válida."""
+    ruta = Path(ruta_dataset)
+
+    if not ruta.exists():
+        raise FileNotFoundError(f"❌ Archivo no encontrado: {ruta_dataset}")
+
+    if not ruta.is_file():
+        raise ValueError(f"❌ La ruta no es un archivo: {ruta_dataset}")
+
+    if ruta.suffix.lower() != '.csv':
+        raise ValueError(f"❌ Archivo debe ser CSV, se recibió: {ruta.suffix}")
+
+    print(f"✓ Validación exitosa: {ruta_dataset}\n")
+
+
+def _ejecutar_etapa(nombre_etapa, funcion, *args):
+    """
+    Ejecuta una etapa del pipeline con manejo de errores.
+
+    Parámetros:
+    -----------
+    nombre_etapa : str
+        Nombre descriptivo de la etapa
+    funcion : callable
+        Función a ejecutar
+    args : tuple
+        Argumentos para la función
+    """
+    print(f"\n{'=' * 60}")
+    print(f"▶️  ETAPA {nombre_etapa}")
+    print(f"{'=' * 60}")
+
+    try:
+        resultado = funcion(*args)
+        print(f"\n✅ {nombre_etapa} completada exitosamente\n")
+        return resultado
+
+    except Exception as e:
+        print(f"\n❌ Error en {nombre_etapa}: {str(e)}\n")
+        raise
 
 
 def ejecutar_pipeline(ruta_dataset):
     """
-    Orquestador que ejecuta el pipeline de análisis de datos.
+    Orquestador que ejecuta el pipeline de análisis predictivo.
 
-    Flujo:
-    1. Preparar datos (Skill1)
-    2. Ejecutar EDA (Skill2)
-    3. Entrenar modelo (Skill3)
+    Coordina la ejecución secuencial de tres skills:
+    1. Preparación de datos
+    2. Análisis exploratorio (EDA)
+    3. Entrenamiento de modelos
 
-    Args:
-        ruta_dataset: Ruta del archivo de dataset
+    Parámetros:
+    -----------
+    ruta_dataset : str
+        Ruta del archivo CSV con datos crudos
 
-    Returns:
-        dict: Resultados del pipeline con datos preparados, análisis EDA y modelo entrenado
+    Retorna:
+    --------
+    dict
+        {
+            'dataset': DataFrame preparado,
+            'eda': Diccionario con análisis exploratorio,
+            'modelo': Diccionario con modelo y métricas
+        }
+
+    Notas:
+    ------
+    - El agente COORDINA el flujo, no contiene lógica analítica
+    - Cada etapa es independiente y modular
+    - Los errores se propagan con contexto claro
     """
 
-    # Etapa 1: Preparar datos
-    datos_preparados = preparar_datos(ruta_dataset)
+    print("\n" + "=" * 60)
+    print("🤖 INICIANDO PIPELINE DE ANÁLISIS PREDICTIVO")
+    print("=" * 60)
 
-    # Etapa 2: Ejecutar EDA
-    analisis_eda = ejecutar_eda(datos_preparados)
+    # Validar entrada
+    print("\n📋 Validando entrada...")
+    _validar_ruta_dataset(ruta_dataset)
 
-    # Etapa 3: Entrenar modelo
-    modelo_entrenado = entrenar_modelo(datos_preparados)
+    # Etapa 1: Preparación de datos
+    dataset_preparado = _ejecutar_etapa(
+        "1: PREPARACIÓN DE DATOS",
+        preparar_datos,
+        ruta_dataset
+    )
 
-    # Retornar resultados del pipeline
+    # Etapa 2: Análisis exploratorio
+    analisis_eda = _ejecutar_etapa(
+        "2: ANÁLISIS EXPLORATORIO (EDA)",
+        ejecutar_eda,
+        dataset_preparado
+    )
+
+    # Etapa 3: Entrenamiento de modelos
+    modelo_entrenado = _ejecutar_etapa(
+        "3: ENTRENAMIENTO DE MODELOS",
+        entrenar_modelo,
+        dataset_preparado
+    )
+
+    # Resumen final
+    print("=" * 60)
+    print("✅ PIPELINE COMPLETADO EXITOSAMENTE")
+    print("=" * 60)
+    print(f"\n📊 Resumen de resultados:")
+    print(f"   • Dataset: {dataset_preparado.shape[0]} filas × {dataset_preparado.shape[1]} columnas")
+    print(f"   • EDA: Análisis generado con {len(analisis_eda)} métricas")
+    print(f"   • Modelo ganador: {modelo_entrenado['nombre_modelo']}")
+    print(f"   • F1-Score: {modelo_entrenado['metricas']['f1_score']:.4f}")
+    print("=" * 60 + "\n")
+
+    # Retornar resultados
     resultados = {
-        "datos_preparados": datos_preparados,
-        "analisis_eda": analisis_eda,
+        "dataset": dataset_preparado,
+        "eda": analisis_eda,
         "modelo": modelo_entrenado
     }
 
