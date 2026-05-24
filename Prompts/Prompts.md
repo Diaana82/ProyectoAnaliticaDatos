@@ -78,3 +78,42 @@ Requisitos adicionales:
 - Mostrar imágenes con IPython.display
 
 El resultado debe ser un notebook limpio, bien estructurado y listo para entrega universitaria.
+
+________________________helpers prompt______________________
+
+Estoy trabajando en un proyecto de análisis predictivo en Python con arquitectura modular basada en:
+
+- Agent (Orquestador)
+- Skills (preparación de datos, EDA, modelado)
+- Notebooks
+- outputs
+
+Quiero crear una carpeta llamada "helpers" con utilidades reutilizables que NO formen parte de la lógica principal del pipeline.
+
+Genera el código completo para los siguientes archivos dentro de la carpeta helpers:
+
+1. logger.py
+- Funciones para imprimir títulos, subtítulos, mensajes de éxito y error
+- Deben usar prints formateados con separadores visuales
+
+2. rutas.py
+- Funciones para manejar rutas usando pathlib
+- Obtener ruta de Data y outputs
+
+3. utils.py
+- Funciones pequeñas reutilizables como:
+  - formatear porcentajes
+  - cálculos simples
+
+4. files.py
+- Funciones para:
+  - crear directorios si no existen
+  - limpiar directorios (eliminar y volver a crear)
+
+Requisitos:
+- Código limpio y bien organizado
+- Buenas prácticas
+- Documentación breve en cada función (docstrings)
+- Compatible con el resto del pipeline
+
+No incluyas lógica de negocio (EDA, limpieza, modelos), solo utilidades.
