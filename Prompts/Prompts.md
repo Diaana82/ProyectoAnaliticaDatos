@@ -1,3 +1,127 @@
+<!-- Orquestador -->
+
+Actúa como ingeniero de software.
+
+Crea un archivo orchestrator.py en Python.
+
+Objetivo:
+Construir un agente orquestador para un sistema de análisis predictivo.
+
+El agente NO debe contener lógica analítica.
+
+Debe:
+- recibir una ruta de dataset
+- llamar secuencialmente tres skills
+- retornar resultados finales
+
+Skills:
+1. preparar_datos()
+2. ejecutar_eda()
+3. entrenar_modelo()
+
+Agregar comentarios y estructura limpia.
+
+<!-- SKILLS -->
+
+Completa el archivo preparar_datos.py.
+
+Contexto:
+Este archivo corresponde a una skill dentro de un sistema agéntico para análisis predictivo de rendimiento estudiantil.
+
+Responsabilidad única:
+Preparación de datos.
+
+Implementa una función:
+
+preparar_datos(ruta)
+
+La función debe:
+
+Cargar el CSV usando pandas
+Mostrar dimensiones del dataset
+Mostrar tipos de datos
+Eliminar duplicados
+Revisar valores nulos
+Limpiar datos básicos si es necesario
+Mantener separación de responsabilidades (NO hacer EDA)
+NO entrenar modelos
+Retornar el dataframe preparado
+Agregar comentarios claros y código modular
+
+Completa el archivo analisis_eda.py.
+
+Contexto:
+Este archivo corresponde a la Skill 2 de un sistema agéntico para análisis predictivo de rendimiento estudiantil.
+
+Objetivo:
+Realizar análisis exploratorio del dataset.
+
+Implementa una función:
+
+ejecutar_eda(df)
+
+Requisitos:
+
+Recibir un DataFrame ya preparado
+Mostrar información general del dataset
+Generar estadísticas descriptivas
+Mostrar distribución de variables numéricas
+Generar matriz de correlación
+Crear gráficos usando matplotlib
+Mostrar valores faltantes
+NO modificar el dataframe
+NO entrenar modelos
+Retornar un diccionario resumen
+Guardar gráficos dentro de:
+
+outputs/eda/
+
+Agregar comentarios y estructura limpia.
+
+
+Completa el archivo modelado.py.
+
+Contexto:
+Este archivo corresponde a la Skill 3 de un sistema agéntico para análisis predictivo de rendimiento estudiantil.
+
+Objetivo:
+Entrenar y seleccionar el mejor modelo.
+
+Implementa función:
+
+entrenar_modelo(df)
+
+Requisitos:
+
+Identificar variable objetivo automáticamente (si existe columna rendimiento usarla)
+Separar X e y
+Codificar variables categóricas
+Dividir train/test (80/20)
+Entrenar:
+Logistic Regression
+Decision Tree
+Random Forest
+Evaluar:
+
+accuracy
+precision
+recall
+f1-score
+Seleccionar mejor modelo.
+
+Retornar:
+
+{
+"modelo_ganador": ...,
+"metricas": ...
+}
+
+NO generar gráficos.
+NO limpiar datos.
+Agregar comentarios.
+
+<!-- NOTEBOOK -->
+
 Prompt para el notebook: Actúa como un arquitecto profesional de proyectos de Data Science e IA.
 
 Genera un notebook Jupyter (.ipynb) completo para un proyecto universitario titulado:
