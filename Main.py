@@ -74,7 +74,7 @@ def main():
     print("=" * 60)
 
     # Definir ruta del dataset
-    ruta_dataset = "data/StudentPerformanceFactors.csv"
+    ruta_dataset = "Data/StudentPerformanceFactors.csv"
 
     print(f"\n📁 Ruta del dataset: {ruta_dataset}")
 

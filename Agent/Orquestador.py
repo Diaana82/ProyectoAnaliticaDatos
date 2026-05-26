@@ -1,4 +1,9 @@
 from pathlib import Path
+import sys
+
+# Agregar el directorio padre al path para importar Skills
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from Skills.preparar_datos import preparar_datos
 from Skills.analisis_eda import ejecutar_eda
 from Skills.modelado import entrenar_modelo
@@ -125,3 +130,15 @@ def ejecutar_pipeline(ruta_dataset):
     }
 
     return resultados
+
+
+if __name__ == "__main__":
+    import sys
+    
+    try:
+        ruta_dataset = "Data/StudentPerformanceFactors.csv"
+        resultados = ejecutar_pipeline(ruta_dataset)
+        sys.exit(0)
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+        sys.exit(1)
